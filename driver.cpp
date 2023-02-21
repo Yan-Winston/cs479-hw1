@@ -7,7 +7,17 @@
 #include <fstream>
 #include <cstdlib>
 #include <cmath>
+
 #include "classifier.h"
+
+
+//means for         x  y
+static int u1[2] = {1, 1};
+static int u2[2] = {4, 4};
+
+//covariance matrices
+static int E1[2][2] = {{1, 0}, {0, 1}};
+static int E2[2][2] = {{1, 0}, {0, 1}};
 
 
 
@@ -51,22 +61,20 @@ void generateData() {
 
     Coordinate tempCoord;
 
-    for (int i = 0; i < 60000; i++) { // N(µ1, ∑1)
-        tempCoord.x = -1;
-        tempCoord.x = -1;
+    for (int i = 0; i < 60000; i++) {
+        tempCoord.x = box_muller(u1[0], E1[0][0]);
+        tempCoord.y = box_muller(u1[1], E1[1][1]);
         tempCoord.actual_class = 1;
 
-
-
-        //f << ;
+        f << tempCoord.x << "," << tempCoord.y << "," << tempCoord.actual_class << std::endl;
     }
 
     for (int i = 0; i < 140000; i++) {
-        tempCoord.x = -1;
-        tempCoord.y = -1;
+        tempCoord.x = box_muller(u2[0], E2[0][0]);
+        tempCoord.y = box_muller(u2[1], E2[1][1]);
         tempCoord.actual_class = 2;
 
-        f << 3;
+        f << tempCoord.x << "," << tempCoord.y << "," << tempCoord.actual_class << std::endl;
     }
     f.close();
 }
@@ -75,13 +83,18 @@ void trainAndTest() {
 
 }
 
+void debugPlot() {
+    //figure out smthn to plot
+}
+
 int menu() {
     std::string choice;
 
     std::cout << "Please select an option:" << std::endl;
     std::cout << "(1)     Generate New Data" << std::endl;
     std::cout << "(2)     Train and Test" << std::endl;
-    std::cout << "(3)     Generate New Data, Train, and Test" << std::endl;
+    std::cout << "(3)     Plot Data" << std::endl;
+    std::cout << "(4)     Run All Above" << std::endl;
     std::cout << "(0)     Quit" << std::endl;
     std::cout << ">> ";
     std::cin >> choice;
@@ -108,7 +121,11 @@ int main() {
                 break;
             
             case 3:
+                debugPlot();
+                break;
+            case 4:
                 generateData();
+                debugPlot();
                 trainAndTest();
                 break;
 
