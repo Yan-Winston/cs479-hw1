@@ -1,23 +1,31 @@
-// By: Winston Yan
+// By: Winston Yan and Ford Bailey
 // On: Spring 2023
 // For: CS479 HW 1
 
 
-#include <iostream>
-#include <fstream>
-#include <cstdlib>
-#include <cmath>
 
 #include "classifier.h"
 
-
-//means for         x  y
-static int u1[2] = {1, 1};
-static int u2[2] = {4, 4};
+//set A
+//means of features x  y
+static int u1_A[2] = {1, 1};
+static int u2_A[2] = {4, 4};
 
 //covariance matrices
-static int E1[2][2] = {{1, 0}, {0, 1}};
-static int E2[2][2] = {{1, 0}, {0, 1}};
+static int E1_A[2][2] = {{1, 0}, {0, 1}};
+static int E2_A[2][2] = {{1, 0}, {0, 1}};
+
+
+//set B
+//means of features x  y
+static int u1_B[2] = {1, 1};
+static int u2_B[2] = {4, 4};
+
+//covariance matrices
+static int E1_B[2][2] = {{1, 0}, {0, 1}};
+static int E2_B[2][2] = {{4, 0}, {0, 8}};
+
+
 
 
 
@@ -57,26 +65,55 @@ double box_muller(double m, double s) {
 
 void generateData() {
     std::ofstream f;
-    f.open("testData.csv", std::ios::out);
+    std::string set;
+    std::cout << "[Re]generate Data Set A (1) or B (2): ";
+    std::cin >> set;
+    
+    if (std::stoi(set) != 2) {
+        f.open("testData_A.csv", std::ios::out);
 
-    Coordinate tempCoord;
+        Coordinate tempCoord;
 
-    for (int i = 0; i < 60000; i++) {
-        tempCoord.x = box_muller(u1[0], E1[0][0]);
-        tempCoord.y = box_muller(u1[1], E1[1][1]);
-        tempCoord.actual_class = 1;
+        for (int i = 0; i < 60000; i++) {
+            tempCoord.x = box_muller(u1_A[0], E1_A[0][0]);
+            tempCoord.y = box_muller(u1_A[1], E1_A[1][1]);
+            tempCoord.actual_class = 1;
 
-        f << tempCoord.x << "," << tempCoord.y << "," << tempCoord.actual_class << std::endl;
+            f << tempCoord.x << "," << tempCoord.y << "," << tempCoord.actual_class << std::endl;
+        }
+
+        for (int i = 0; i < 140000; i++) {
+            tempCoord.x = box_muller(u2_A[0], E2_A[0][0]);
+            tempCoord.y = box_muller(u2_A[1], E2_A[1][1]);
+            tempCoord.actual_class = 2;
+
+            f << tempCoord.x << "," << tempCoord.y << "," << tempCoord.actual_class << std::endl;
+        }
+        
+        f.close();
+    } else {
+        f.open("testData_B.csv", std::ios::out);
+
+        Coordinate tempCoord;
+
+        for (int i = 0; i < 60000; i++) {
+            tempCoord.x = box_muller(u1_B[0], E1_B[0][0]);
+            tempCoord.y = box_muller(u1_B[1], E1_B[1][1]);
+            tempCoord.actual_class = 1;
+
+            f << tempCoord.x << "," << tempCoord.y << "," << tempCoord.actual_class << std::endl;
+        }
+
+        for (int i = 0; i < 140000; i++) {
+            tempCoord.x = box_muller(u2_B[0], E2_B[0][0]);
+            tempCoord.y = box_muller(u2_B[1], E2_B[1][1]);
+            tempCoord.actual_class = 2;
+
+            f << tempCoord.x << "," << tempCoord.y << "," << tempCoord.actual_class << std::endl;
+        }
+        
+        f.close();
     }
-
-    for (int i = 0; i < 140000; i++) {
-        tempCoord.x = box_muller(u2[0], E2[0][0]);
-        tempCoord.y = box_muller(u2[1], E2[1][1]);
-        tempCoord.actual_class = 2;
-
-        f << tempCoord.x << "," << tempCoord.y << "," << tempCoord.actual_class << std::endl;
-    }
-    f.close();
 }
 
 void trainAndTest() {
@@ -84,7 +121,7 @@ void trainAndTest() {
 }
 
 void debugPlot() {
-    //figure out smthn to plot
+    std::cout << "Run \"python plot.py\" to visualize the data." << std::endl;
 }
 
 int menu() {

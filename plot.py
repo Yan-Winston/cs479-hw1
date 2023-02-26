@@ -4,10 +4,18 @@ import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
     try:
-        with open("testData.csv", "r") as f:
+        x = input("Enter File Name: ")
+        with open(x, "r") as f:
+
             plt.figure(figsize = (10,6))
-            plt.xlim([-1, 6])
-            plt.ylim([-1, 6])
+            
+            if "A" in list(x):
+                plt.xlim([-1, 6])
+                plt.ylim([-1, 6])
+            else:
+                plt.xlim([-18, 36])
+                plt.ylim([-18, 36])
+                
 
             c = 0
             
