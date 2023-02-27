@@ -6,6 +6,8 @@
 
 #include "classifier.h"
 
+
+
 //set A
 //means of features x  y
 static int u1_A[2] = {1, 1};
@@ -24,8 +26,6 @@ static int u2_B[2] = {4, 4};
 //covariance matrices
 static int E1_B[2][2] = {{1, 0}, {0, 1}};
 static int E2_B[2][2] = {{4, 0}, {0, 8}};
-
-
 
 
 
@@ -70,7 +70,7 @@ void generateData() {
     std::cin >> set;
     
     if (std::stoi(set) != 2) {
-        f.open("testData_A.csv", std::ios::out);
+        f.open("testData_A.txt", std::ios::out);
 
         Coordinate tempCoord;
 
@@ -79,7 +79,7 @@ void generateData() {
             tempCoord.y = box_muller(u1_A[1], E1_A[1][1]);
             tempCoord.actual_class = 1;
 
-            f << tempCoord.x << "," << tempCoord.y << "," << tempCoord.actual_class << std::endl;
+            f << tempCoord.x << " " << tempCoord.y << " " << tempCoord.actual_class << std::endl;
         }
 
         for (int i = 0; i < 140000; i++) {
@@ -87,12 +87,12 @@ void generateData() {
             tempCoord.y = box_muller(u2_A[1], E2_A[1][1]);
             tempCoord.actual_class = 2;
 
-            f << tempCoord.x << "," << tempCoord.y << "," << tempCoord.actual_class << std::endl;
+            f << tempCoord.x << " " << tempCoord.y << " " << tempCoord.actual_class << std::endl;
         }
         
         f.close();
     } else {
-        f.open("testData_B.csv", std::ios::out);
+        f.open("testData_B.txt", std::ios::out);
 
         Coordinate tempCoord;
 
@@ -101,7 +101,7 @@ void generateData() {
             tempCoord.y = box_muller(u1_B[1], E1_B[1][1]);
             tempCoord.actual_class = 1;
 
-            f << tempCoord.x << "," << tempCoord.y << "," << tempCoord.actual_class << std::endl;
+            f << tempCoord.x << " " << tempCoord.y << " " << tempCoord.actual_class << std::endl;
         }
 
         for (int i = 0; i < 140000; i++) {
@@ -109,19 +109,52 @@ void generateData() {
             tempCoord.y = box_muller(u2_B[1], E2_B[1][1]);
             tempCoord.actual_class = 2;
 
-            f << tempCoord.x << "," << tempCoord.y << "," << tempCoord.actual_class << std::endl;
+            f << tempCoord.x << " " << tempCoord.y << " " << tempCoord.actual_class << std::endl;
         }
         
         f.close();
     }
 }
 
-void trainAndTest() {
+void trainAndTest(int i) {
 
+    std::ifstream f;
+    double data[200000][3];
+
+    double x;
+    double y;
+    int c;
+
+    int counter = 0;
+
+    if (i == 1) {
+        f.open("testData_A.csv");
+    } else {
+        f.open("testData_B.csv");
+    }
+
+    while (f >> x >> y >> c) {
+        data[counter][0] = x;
+        data[counter][1] = y;
+        data[counter][2] = (double) c;
+        counter++;
+    }
+
+    f.close();
+
+    random_shuffle(std::begin(data), std::end(data));
+
+    /*
+    
+    testing code goes here after classifier is done
+    
+    
+    
+    */
 }
 
 void debugPlot() {
-    std::cout << "Run \"python plot.py\" to visualize the data." << std::endl;
+    std::cout << "Run \"python plot.py\" to visualize the data." << std::endl << std::endl;
 }
 
 int menu() {
@@ -145,6 +178,7 @@ int menu() {
 
 int main() {
 
+    std::string temp = "";
     bool run = true;
 
     while(run) {
@@ -163,7 +197,16 @@ int main() {
             case 4:
                 generateData();
                 debugPlot();
-                trainAndTest();
+
+                std::cout << "Data set A(1) or B(1)?"
+                std::cin >> temp;
+                std::cout << std::endl;
+                if (std::stoi(temp) == 1) {
+                    trainAndTest(1);
+                } else {
+                    trainAndTest(2);
+                }
+
                 break;
 
             default:

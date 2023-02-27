@@ -1,10 +1,10 @@
 #ifndef CLASSIFIER_H
 #define CLASSIFIER_H
 
-#include <iostream>
-#include <fstream>
-#include <cstdlib>
+#include <algorithm>
 #include <cmath>
-#include <Eigen/Dense>
+#include <cstdlib>
+#include <fstream>
+#include <iostream>
 
 #endif
