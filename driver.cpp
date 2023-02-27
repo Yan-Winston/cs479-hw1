@@ -142,7 +142,7 @@ void trainAndTest(int i) {
 
     f.close();
 
-    random_shuffle(std::begin(data), std::end(data));
+    std::random_shuffle(std::begin(data), std::end(data));
 
     /*
     
@@ -188,7 +188,16 @@ int main() {
                 break;
 
             case 2:
-                trainAndTest();
+
+                std::cout << "Data set A(1) or B(1)?";
+                std::cin >> temp;
+                std::cout << std::endl;
+                if (std::stoi(temp) == 1) {
+                    trainAndTest(1);
+                } else {
+                    trainAndTest(2);
+                }
+
                 break;
             
             case 3:
@@ -198,7 +207,7 @@ int main() {
                 generateData();
                 debugPlot();
 
-                std::cout << "Data set A(1) or B(1)?"
+                std::cout << "Data set A(1) or B(1)?";
                 std::cin >> temp;
                 std::cout << std::endl;
                 if (std::stoi(temp) == 1) {

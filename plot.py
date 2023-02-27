@@ -20,8 +20,8 @@ if __name__ == "__main__":
             c = 0
             
             for line in f:
-                line = line.strip().split(",")
-                if c%10 == 0:
+                line = line.strip().split(" ")
+                if c%1 == 0:
                     if line[2] == "1":
                         plt.plot(float(line[0]), float(line[1]), "go", alpha = 0.1, markersize = 0.5)
                     else:
