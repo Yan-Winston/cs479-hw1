@@ -22,9 +22,6 @@ class BayesClassifier {
         //variances
         int vars[2][2][2];
 
-        int predict_case_i(double point[2]);
-        int predict_case_iii(double point[2]);
-
         double bayes_i(int guess, double point[2]); //posterior p(Cn/x)
         double bayes_iii(int guess, double point[2]); //posterior p(Cn/x)
         double gauss_pdf_i(int guess, double point[2], int mu[2], int sigma[2][2]); //likelihood p(x/Cn)
@@ -34,8 +31,10 @@ class BayesClassifier {
         int loss(int action, int guess); //Zero-one loss
 
     public:
-        BayesClassifier();
         BayesClassifier(int num_c1, int num_c2, int means[2][2], int vars[2][2][2]);
+
+        int predict_case_i(double point[2]);
+        int predict_case_iii(double point[2]);
 };
 
 #endif

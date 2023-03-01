@@ -1,0 +1,82 @@
+File of results for Data set B using Case I
+
+Trial 1 Results: 
+Accuracy: 0.7046
+Errors: 
+    Classified 1 as 2: 1540
+    Classified 2 as 1: 4368
+    Did not classify: 0
+
+
+Trial 2 Results: 
+Accuracy: 0.7046
+Errors: 
+    Classified 1 as 2: 1572
+    Classified 2 as 1: 4336
+    Did not classify: 0
+
+
+Trial 3 Results: 
+Accuracy: 0.7076
+Errors: 
+    Classified 1 as 2: 1533
+    Classified 2 as 1: 4315
+    Did not classify: 0
+
+
+Trial 4 Results: 
+Accuracy: 0.7024
+Errors: 
+    Classified 1 as 2: 1557
+    Classified 2 as 1: 4395
+    Did not classify: 0
+
+
+Trial 5 Results: 
+Accuracy: 0.70425
+Errors: 
+    Classified 1 as 2: 1521
+    Classified 2 as 1: 4394
+    Did not classify: 0
+
+
+Trial 6 Results: 
+Accuracy: 0.70475
+Errors: 
+    Classified 1 as 2: 1544
+    Classified 2 as 1: 4361
+    Did not classify: 0
+
+
+Trial 7 Results: 
+Accuracy: 0.7024
+Errors: 
+    Classified 1 as 2: 1580
+    Classified 2 as 1: 4372
+    Did not classify: 0
+
+
+Trial 8 Results: 
+Accuracy: 0.7052
+Errors: 
+    Classified 1 as 2: 1488
+    Classified 2 as 1: 4408
+    Did not classify: 0
+
+
+Trial 9 Results: 
+Accuracy: 0.70135
+Errors: 
+    Classified 1 as 2: 1518
+    Classified 2 as 1: 4455
+    Did not classify: 0
+
+
+Trial 10 Results: 
+Accuracy: 0.70595
+Errors: 
+    Classified 1 as 2: 1499
+    Classified 2 as 1: 4382
+    Did not classify: 0
+
+

@@ -10,22 +10,19 @@
 
 //set A
 //means of features x  y
-static int u1_A[2] = {1, 1};
-static int u2_A[2] = {4, 4};
+static int u_A[2][2] = {{1, 1}, {4, 4}};
 
-//covariance matrices
-static int E1_A[2][2] = {{1, 0}, {0, 1}};
-static int E2_A[2][2] = {{1, 0}, {0, 1}};
+//covariance matrix
+static int E_A[2][2][2] = {{{1, 0}, {0, 1}}, {{1, 0}, {0, 1}}};
+
 
 
 //set B
 //means of features x  y
-static int u1_B[2] = {1, 1};
-static int u2_B[2] = {4, 4};
+static int u_B[2][2] = {{1, 1}, {4, 4}};
 
 //covariance matrices
-static int E1_B[2][2] = {{1, 0}, {0, 1}};
-static int E2_B[2][2] = {{4, 0}, {0, 8}};
+static int E_B[2][2][2] = {{{1, 0}, {0, 1}}, {{4, 0}, {0, 8}}};
 
 
 
@@ -72,53 +69,343 @@ void generateData() {
     std::cin >> set;
     
     if (std::stoi(set) != 2) {
-        f.open("testData_A.csv", std::ios::out);
+        f.open("testData_A.txt", std::ios::out);
 
         Coordinate tempCoord;
 
         for (int i = 0; i < 60000; i++) {
-            tempCoord.x = box_muller(u1_A[0], E1_A[0][0]);
-            tempCoord.y = box_muller(u1_A[1], E1_A[1][1]);
+            tempCoord.x = box_muller(u_A[0][0], E_A[0][0][0]);
+            tempCoord.y = box_muller(u_A[0][1], E_A[0][1][1]);
             tempCoord.actual_class = 1;
 
-            f << tempCoord.x << "," << tempCoord.y << "," << tempCoord.actual_class << std::endl;
+            f << tempCoord.x << " " << tempCoord.y << " " << tempCoord.actual_class << std::endl;
         }
 
         for (int i = 0; i < 140000; i++) {
-            tempCoord.x = box_muller(u2_A[0], E2_A[0][0]);
-            tempCoord.y = box_muller(u2_A[1], E2_A[1][1]);
+            tempCoord.x = box_muller(u_A[1][0], E_A[1][0][0]);
+            tempCoord.y = box_muller(u_A[1][1], E_A[1][1][1]);
             tempCoord.actual_class = 2;
 
-            f << tempCoord.x << "," << tempCoord.y << "," << tempCoord.actual_class << std::endl;
+            f << tempCoord.x << " " << tempCoord.y << " " << tempCoord.actual_class << std::endl;
         }
         
         f.close();
     } else {
-        f.open("testData_B.csv", std::ios::out);
+        f.open("testData_B.txt", std::ios::out);
 
         Coordinate tempCoord;
 
         for (int i = 0; i < 60000; i++) {
-            tempCoord.x = box_muller(u1_B[0], E1_B[0][0]);
-            tempCoord.y = box_muller(u1_B[1], E1_B[1][1]);
+            tempCoord.x = box_muller(u_B[0][0], E_B[0][0][0]);
+            tempCoord.y = box_muller(u_B[0][1], E_B[0][1][1]);
             tempCoord.actual_class = 1;
 
-            f << tempCoord.x << "," << tempCoord.y << "," << tempCoord.actual_class << std::endl;
+            f << tempCoord.x << " " << tempCoord.y << " " << tempCoord.actual_class << std::endl;
         }
 
         for (int i = 0; i < 140000; i++) {
-            tempCoord.x = box_muller(u2_B[0], E2_B[0][0]);
-            tempCoord.y = box_muller(u2_B[1], E2_B[1][1]);
+            tempCoord.x = box_muller(u_B[1][0], E_B[1][0][0]);
+            tempCoord.y = box_muller(u_B[1][1], E_B[1][1][1]);
             tempCoord.actual_class = 2;
 
-            f << tempCoord.x << "," << tempCoord.y << "," << tempCoord.actual_class << std::endl;
+            f << tempCoord.x << " " << tempCoord.y << " " << tempCoord.actual_class << std::endl;
         }
         
         f.close();
     }
 }
 
-void trainAndTest() {
+void trainAndTest(int i) {
+
+    std::ifstream f;
+    std::ofstream out;
+
+    std::string temp;
+
+    double data[200000][3];
+    double point[2];
+
+    int counter = 0;
+    int tests = 0;
+    
+    double x, y, c;
+
+    if (i == 1) {
+        f.open("testData_A.txt");
+    } else {
+        f.open("testData_B.txt");
+    }
+
+
+
+    std::string line;
+
+    while (std::getline(f, line)) {
+        
+        std::istringstream iss(line);
+
+        if (!(iss >> x >> y >> c)) {
+            std::cout << "Unable to read file." << std::endl;
+            break;
+        }        
+
+        data[counter][0] = x;
+        data[counter][1] = y;
+        data[counter][2] = c;
+        
+        counter++;
+    }
+
+    counter = 0;
+    f.close();
+
+
+
+    std::random_shuffle(std::begin(data), std::end(data));
+
+    std::cout <<  "Would you like to train/test using Case I (1), or Case III (2)? ";
+    std::cin >> temp;
+
+    if (temp != "1") {
+        //run test for case III
+
+        if (i == 1) {
+            //data set A
+            BayesClassifier* classifier = new BayesClassifier(60000, 140000, u_A, E_A);
+
+            int correct;
+            int attempted;
+            int guess;
+
+            //   classed 1 as 2, 2 as 1, no class 
+            int incorrect[3] = {0, 0, 0};
+
+            out.open("Results/results_A_case_iii.txt");
+            out << "File of results for Data set A using Case III" << std::endl << std::endl;
+
+            while (tests < 10) {
+
+                correct = 0;
+                attempted = 0;
+                incorrect[0] = 0;
+                incorrect[1] = 0;
+                incorrect[2] = 0;
+
+                while (counter-(tests*20000) < 20000) {
+                    point[0] = data[counter][0];
+                    point[1] = data[counter][1];
+
+                    guess = classifier->predict_case_iii(point);
+                    
+                    if (data[counter][2] == guess) {
+                        //is right
+                        correct++;
+                    } else if (data[counter][2] < guess) {
+                        //guessed 2, but was 1
+                        incorrect[0]++;
+                    } else if (guess != 0) {
+                        //guessed 1, but was 2
+                        incorrect[1]++;
+                    } else {
+                        //no class
+                        incorrect[2]++;
+                    }
+
+                    attempted++;                    
+                    counter++;
+                }
+                tests++;
+
+                out << "Trial " << tests << " Results: " << std::endl;
+                out << "Accuracy: " << (double) correct/attempted << std::endl;
+                out << "Errors: " << std::endl;
+                out << "    Classified 1 as 2: " << incorrect[0] << std::endl;
+                out << "    Classified 2 as 1: " << incorrect[1] << std::endl;
+                out << "    Did not classify: " << incorrect[2] << std::endl << std::endl << std::endl;
+            }
+
+            out.close();
+            std::cout << "Results Saved Successfully." << std::endl << std::endl;
+
+        } else {
+            //data set B
+            BayesClassifier* classifier = new BayesClassifier(60000, 140000, u_B, E_B);
+
+            int correct;
+            int attempted;
+            int guess;
+
+            //   classed 1 as 2, 2 as 1, no class 
+            int incorrect[3] = {0, 0, 0};
+
+            out.open("Results/results_B_case_iii.txt");
+            out << "File of results for Data set B using Case III" << std::endl << std::endl;
+
+            while (tests < 10) {
+
+                correct = 0;
+                attempted = 0;
+                incorrect[0] = 0;
+                incorrect[1] = 0;
+                incorrect[2] = 0;
+
+                while (counter-(tests*20000) < 20000) {
+                    point[0] = data[counter][0];
+                    point[1] = data[counter][1];
+
+                    guess = classifier->predict_case_iii(point);
+                    
+                    if (data[counter][2] == guess) {
+                        //is right
+                        correct++;
+                    } else if (data[counter][2] < guess) {
+                        //guessed 2, but was 1
+                        incorrect[0]++;
+                    } else if (guess != 0) {
+                        //guessed 1, but was 2
+                        incorrect[1]++;
+                    } else {
+                        //no class
+                        incorrect[2]++;
+                    }
+
+                    attempted++;                    
+                    counter++;
+                }
+                tests++;
+
+                out << "Trial " << tests << " Results: " << std::endl;
+                out << "Accuracy: " << (double) correct/attempted << std::endl;
+                out << "Errors: " << std::endl;
+                out << "    Classified 1 as 2: " << incorrect[0] << std::endl;
+                out << "    Classified 2 as 1: " << incorrect[1] << std::endl;
+                out << "    Did not classify: " << incorrect[2] << std::endl << std::endl << std::endl;
+            }
+
+            out.close();
+            std::cout << "Results Saved Successfully." << std::endl << std::endl;
+        }
+
+    } else {
+        //run test for case I
+
+        if (i == 1) {
+            //data set A
+            BayesClassifier* classifier = new BayesClassifier(60000, 140000, u_A, E_A);
+
+            int correct;
+            int attempted;
+            int guess;
+
+            //   classed 1 as 2, 2 as 1, no class 
+            int incorrect[3] = {0, 0, 0};
+
+            out.open("Results/results_A_case_i.txt");
+            out << "File of results for Data set A using Case I" << std::endl << std::endl;
+
+            while (tests < 10) {
+
+                correct = 0;
+                attempted = 0;
+                incorrect[0] = 0;
+                incorrect[1] = 0;
+                incorrect[2] = 0;
+
+                while (counter-(tests*20000) < 20000) {
+                    point[0] = data[counter][0];
+                    point[1] = data[counter][1];
+
+                    guess = classifier->predict_case_i(point);
+                    
+                    if (data[counter][2] == guess) {
+                        //is right
+                        correct++;
+                    } else if (data[counter][2] < guess) {
+                        //guessed 2, but was 1
+                        incorrect[0]++;
+                    } else if (guess != 0) {
+                        //guessed 1, but was 2
+                        incorrect[1]++;
+                    } else {
+                        //no class
+                        incorrect[2]++;
+                    }
+
+                    attempted++;                    
+                    counter++;
+                }
+                tests++;
+
+                out << "Trial " << tests << " Results: " << std::endl;
+                out << "Accuracy: " << (double) correct/attempted << std::endl;
+                out << "Errors: " << std::endl;
+                out << "    Classified 1 as 2: " << incorrect[0] << std::endl;
+                out << "    Classified 2 as 1: " << incorrect[1] << std::endl;
+                out << "    Did not classify: " << incorrect[2] << std::endl << std::endl << std::endl;
+            }
+
+            out.close();
+            std::cout << "Results Saved Successfully." << std::endl << std::endl;
+
+        } else {
+            //data set B
+            BayesClassifier* classifier = new BayesClassifier(60000, 140000, u_B, E_B);
+
+            int correct;
+            int attempted;
+            int guess;
+
+            //   classed 1 as 2, 2 as 1, no class 
+            int incorrect[3] = {0, 0, 0};
+
+            out.open("Results/results_B_case_i.txt");
+            out << "File of results for Data set B using Case I" << std::endl << std::endl;
+
+            while (tests < 10) {
+
+                correct = 0;
+                attempted = 0;
+                incorrect[0] = 0;
+                incorrect[1] = 0;
+                incorrect[2] = 0;
+
+                while (counter-(tests*20000) < 20000) {
+                    point[0] = data[counter][0];
+                    point[1] = data[counter][1];
+
+                    guess = classifier->predict_case_i(point);
+                    
+                    if (data[counter][2] == guess) {
+                        //is right
+                        correct++;
+                    } else if (data[counter][2] < guess) {
+                        //guessed 2, but was 1
+                        incorrect[0]++;
+                    } else if (guess != 0) {
+                        //guessed 1, but was 2
+                        incorrect[1]++;
+                    } else {
+                        //no class
+                        incorrect[2]++;
+                    }
+
+                    attempted++;                    
+                    counter++;
+                }
+                tests++;
+
+                out << "Trial " << tests << " Results: " << std::endl;
+                out << "Accuracy: " << (double) correct/attempted << std::endl;
+                out << "Errors: " << std::endl;
+                out << "    Classified 1 as 2: " << incorrect[0] << std::endl;
+                out << "    Classified 2 as 1: " << incorrect[1] << std::endl;
+                out << "    Did not classify: " << incorrect[2] << std::endl << std::endl << std::endl;
+            }
+
+            out.close();
+            std::cout << "Results Saved Successfully." << std::endl << std::endl;
+        }
+    }
 
 }
 
@@ -133,7 +420,6 @@ int menu() {
     std::cout << "(1)     Generate New Data" << std::endl;
     std::cout << "(2)     Train and Test" << std::endl;
     std::cout << "(3)     Plot Data" << std::endl;
-    std::cout << "(4)     Run All Above" << std::endl;
     std::cout << "(0)     Quit" << std::endl;
     std::cout << ">> ";
     std::cin >> choice;
@@ -147,6 +433,7 @@ int menu() {
 
 int main() {
 
+    std::string temp = "";
     bool run = true;
 
     while(run) {
@@ -156,16 +443,20 @@ int main() {
                 break;
 
             case 2:
-                trainAndTest();
+
+                std::cout << "Data set A(1) or B(2)? ";
+                std::cin >> temp;
+                std::cout << std::endl;
+                if (std::stoi(temp) != 1) {
+                    trainAndTest(2);
+                } else {
+                    trainAndTest(1);
+                }
+
                 break;
             
             case 3:
                 debugPlot();
-                break;
-            case 4:
-                generateData();
-                debugPlot();
-                trainAndTest();
                 break;
 
             default:
