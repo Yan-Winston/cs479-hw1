@@ -163,10 +163,10 @@ void trainAndTest(int i) {
 
     std::random_shuffle(std::begin(data), std::end(data));
 
-    std::cout <<  "Would you like to train/test using Case I (1), or Case III (2)? ";
+    std::cout <<  "Would you like to train/test using Case I (1), Case III (2), or Euclidean (3)? ";
     std::cin >> temp;
 
-    if (temp != "1") {
+    if (temp == "2") {
         //run test for case III
 
         if (i == 1) {
@@ -254,6 +254,126 @@ void trainAndTest(int i) {
                     point[1] = data[counter][1];
 
                     guess = classifier->predict_case_iii(point);
+                    
+                    if (data[counter][2] == guess) {
+                        //is right
+                        correct++;
+                    } else if (data[counter][2] < guess) {
+                        //guessed 2, but was 1
+                        incorrect[0]++;
+                    } else if (guess != 0) {
+                        //guessed 1, but was 2
+                        incorrect[1]++;
+                    } else {
+                        //no class
+                        incorrect[2]++;
+                    }
+
+                    attempted++;                    
+                    counter++;
+                }
+                tests++;
+
+                out << "Trial " << tests << " Results: " << std::endl;
+                out << "Accuracy: " << (double) correct/attempted << std::endl;
+                out << "Errors: " << std::endl;
+                out << "    Classified 1 as 2: " << incorrect[0] << std::endl;
+                out << "    Classified 2 as 1: " << incorrect[1] << std::endl;
+                out << "    Did not classify: " << incorrect[2] << std::endl << std::endl << std::endl;
+            }
+
+            out.close();
+            std::cout << "Results Saved Successfully." << std::endl << std::endl;
+        }
+
+    } else if (temp == "3") {
+        //run test for the euclidean distance classifier
+        
+        if (i == 1) {
+            //data set A
+            BayesClassifier* classifier = new BayesClassifier(60000, 140000, u_A, E_A);
+
+            int correct;
+            int attempted;
+            int guess;
+
+            //   classed 1 as 2, 2 as 1, no class 
+            int incorrect[3] = {0, 0, 0};
+
+            out.open("Results/results_A_case_e.txt");
+            out << "File of results for Data set A using the Euclidean Distance Classifier" << std::endl << std::endl;
+
+            while (tests < 10) {
+
+                correct = 0;
+                attempted = 0;
+                incorrect[0] = 0;
+                incorrect[1] = 0;
+                incorrect[2] = 0;
+
+                while (counter-(tests*20000) < 20000) {
+                    point[0] = data[counter][0];
+                    point[1] = data[counter][1];
+
+                    guess = classifier->predict_case_euclid(point);
+                    
+                    if (data[counter][2] == guess) {
+                        //is right
+                        correct++;
+                    } else if (data[counter][2] < guess) {
+                        //guessed 2, but was 1
+                        incorrect[0]++;
+                    } else if (guess != 0) {
+                        //guessed 1, but was 2
+                        incorrect[1]++;
+                    } else {
+                        //no class
+                        incorrect[2]++;
+                    }
+
+                    attempted++;                    
+                    counter++;
+                }
+                tests++;
+
+                out << "Trial " << tests << " Results: " << std::endl;
+                out << "Accuracy: " << (double) correct/attempted << std::endl;
+                out << "Errors: " << std::endl;
+                out << "    Classified 1 as 2: " << incorrect[0] << std::endl;
+                out << "    Classified 2 as 1: " << incorrect[1] << std::endl;
+                out << "    Did not classify: " << incorrect[2] << std::endl << std::endl << std::endl;
+            }
+
+            out.close();
+            std::cout << "Results Saved Successfully." << std::endl << std::endl;
+
+        } else {
+            //data set B
+            BayesClassifier* classifier = new BayesClassifier(60000, 140000, u_B, E_B);
+
+            int correct;
+            int attempted;
+            int guess;
+
+            //   classed 1 as 2, 2 as 1, no class 
+            int incorrect[3] = {0, 0, 0};
+
+            out.open("Results/results_B_case_euclid.txt");
+            out << "File of results for Data set B using the Euclidean Distance Classifier" << std::endl << std::endl;
+
+            while (tests < 10) {
+
+                correct = 0;
+                attempted = 0;
+                incorrect[0] = 0;
+                incorrect[1] = 0;
+                incorrect[2] = 0;
+
+                while (counter-(tests*20000) < 20000) {
+                    point[0] = data[counter][0];
+                    point[1] = data[counter][1];
+
+                    guess = classifier->predict_case_euclid(point);
                     
                     if (data[counter][2] == guess) {
                         //is right

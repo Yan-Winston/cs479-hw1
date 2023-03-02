@@ -24,8 +24,10 @@ class BayesClassifier {
 
         double bayes_i(int guess, double point[2]); //posterior p(Cn/x)
         double bayes_iii(int guess, double point[2]); //posterior p(Cn/x)
+        double euclid(int guess, double point[2]); //posterior p(Cn/x)
         double gauss_pdf_i(int guess, double point[2], int mu[2], int sigma[2][2]); //likelihood p(x/Cn)
         double gauss_pdf_iii(int guess, double point[2], int mu[2], int sigma[2][2]); //likelihood p(x/Cn)
+        double gauss_pdf_euclid(int guess, double point[2], int mu[2], int sigma[2][2]); //likelihood p(x/Cn)
 
         double risk(int action, int guess, double evidence);
         int loss(int action, int guess); //Zero-one loss
@@ -35,6 +37,7 @@ class BayesClassifier {
 
         int predict_case_i(double point[2]);
         int predict_case_iii(double point[2]);
+        int predict_case_euclid(double point[2]);
 };
 
 #endif

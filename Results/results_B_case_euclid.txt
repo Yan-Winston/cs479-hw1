@@ -1,0 +1,82 @@
+File of results for Data set B using the Euclidean Distance Classifier
+
+Trial 1 Results: 
+Accuracy: 0.4766
+Errors: 
+    Classified 1 as 2: 18
+    Classified 2 as 1: 10450
+    Did not classify: 0
+
+
+Trial 2 Results: 
+Accuracy: 0.47575
+Errors: 
+    Classified 1 as 2: 20
+    Classified 2 as 1: 10465
+    Did not classify: 0
+
+
+Trial 3 Results: 
+Accuracy: 0.48475
+Errors: 
+    Classified 1 as 2: 19
+    Classified 2 as 1: 10286
+    Did not classify: 0
+
+
+Trial 4 Results: 
+Accuracy: 0.4797
+Errors: 
+    Classified 1 as 2: 26
+    Classified 2 as 1: 10380
+    Did not classify: 0
+
+
+Trial 5 Results: 
+Accuracy: 0.4771
+Errors: 
+    Classified 1 as 2: 20
+    Classified 2 as 1: 10438
+    Did not classify: 0
+
+
+Trial 6 Results: 
+Accuracy: 0.4761
+Errors: 
+    Classified 1 as 2: 29
+    Classified 2 as 1: 10449
+    Did not classify: 0
+
+
+Trial 7 Results: 
+Accuracy: 0.46975
+Errors: 
+    Classified 1 as 2: 29
+    Classified 2 as 1: 10576
+    Did not classify: 0
+
+
+Trial 8 Results: 
+Accuracy: 0.48235
+Errors: 
+    Classified 1 as 2: 30
+    Classified 2 as 1: 10323
+    Did not classify: 0
+
+
+Trial 9 Results: 
+Accuracy: 0.4742
+Errors: 
+    Classified 1 as 2: 26
+    Classified 2 as 1: 10490
+    Did not classify: 0
+
+
+Trial 10 Results: 
+Accuracy: 0.48015
+Errors: 
+    Classified 1 as 2: 27
+    Classified 2 as 1: 10370
+    Did not classify: 0
+
+
