@@ -300,7 +300,7 @@ void trainAndTest(int i) {
             //   classed 1 as 2, 2 as 1, no class 
             int incorrect[3] = {0, 0, 0};
 
-            out.open("Results/results_A_case_e.txt");
+            out.open("Results/results_A_case_euclid.txt");
             out << "File of results for Data set A using the Euclidean Distance Classifier" << std::endl << std::endl;
 
             while (tests < 10) {
