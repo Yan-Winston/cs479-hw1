@@ -153,3 +153,27 @@ int BayesClassifier::loss(int action, int guess) {
     }
     return 0;
 }
+
+
+
+double BayesClassifier::bhattacharyya_error() {
+
+    Vector2d mean_1;
+    Vector2d mean_2;
+
+    Matrix2d variance_1;
+    Matrix2d variance_2;
+
+
+    mean_1 << means[0][0], means[0][1];
+    mean_2 << means[1][0], means[1][1];
+    variance_1 << vars[0][0][0], vars[0][0][1],
+                vars[0][1][0], vars[0][1][1];
+    variance_2 << vars[1][0][0], vars[1][0][1],
+                vars[1][1][0], vars[1][1][1];
+
+    double x = 0.25/2*(mean_1-mean_2).transpose()*(0.5*variance_1+0.5*variance_2).inverse()*(mean_1-mean_2);
+    double y = 0.5*log(((0.5*variance_1 + 0.5*variance_2)/(pow(variance_1.determinant(),0.5)+pow(variance_2.determinant(),0.5))).determinant());
+
+    return pow(0.3,0.5)*pow(0.7,0.5)*exp(-(x+y));
+}

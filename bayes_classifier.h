@@ -35,6 +35,8 @@ class BayesClassifier {
     public:
         BayesClassifier(int num_c1, int num_c2, int means[2][2], int vars[2][2][2]);
 
+        double bhattacharyya_error();
+
         int predict_case_i(double point[2]);
         int predict_case_iii(double point[2]);
         int predict_case_euclid(double point[2]);

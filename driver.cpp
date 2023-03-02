@@ -539,7 +539,8 @@ int menu() {
     std::cout << "Please select an option:" << std::endl;
     std::cout << "(1)     Generate New Data" << std::endl;
     std::cout << "(2)     Train and Test" << std::endl;
-    std::cout << "(3)     Plot Data" << std::endl;
+    std::cout << "(3)     Print Error Bounds" << std::endl;
+    std::cout << "(4)     Plot Data" << std::endl;
     std::cout << "(0)     Quit" << std::endl;
     std::cout << ">> ";
     std::cin >> choice;
@@ -553,10 +554,13 @@ int menu() {
 
 int main() {
 
+    BayesClassifier* general_classifier;
     std::string temp = "";
     bool run = true;
 
     while(run) {
+        temp = "";
+
         switch(menu()) {
             case 1:
                 generateData();
@@ -576,6 +580,19 @@ int main() {
                 break;
             
             case 3:
+
+                std::cout << "Data set A(1) or B(2)? ";
+                std::cin >> temp;
+                std::cout << std::endl;
+                if (std::stoi(temp) != 1) {
+                    general_classifier = new BayesClassifier(60000, 140000, u_B, E_B);
+                } else {
+                    general_classifier = new BayesClassifier(60000, 140000, u_A, E_A);
+                }
+                    std::cout << "Error is ±" << general_classifier->bhattacharyya_error() << std::endl << std::endl;
+                break;
+
+            case 4:
                 debugPlot();
                 break;
 
