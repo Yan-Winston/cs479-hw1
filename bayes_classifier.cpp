@@ -108,7 +108,7 @@ double BayesClassifier::gauss_pdf_i(int guess, double p[2], int m[2], int s[2][2
     double y = (2 * sqrt(variance(0,0)));
     double z = log(priors[guess-1]); 
 
-    return (x/y) + y;
+    return (x/y) + z;
 }
 
 double BayesClassifier::gauss_pdf_iii(int guess, double p[2], int m[2], int s[2][2]) {

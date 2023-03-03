@@ -1,82 +1,82 @@
 File of results for Data set A using Case I
 
 Trial 1 Results: 
-Accuracy: 0.97635
+Accuracy: 0.96055
 Errors: 
-    Classified 1 as 2: 86
-    Classified 2 as 1: 387
+    Classified 1 as 2: 28
+    Classified 2 as 1: 761
     Did not classify: 0
 
 
 Trial 2 Results: 
-Accuracy: 0.97815
+Accuracy: 0.96055
 Errors: 
-    Classified 1 as 2: 75
-    Classified 2 as 1: 362
+    Classified 1 as 2: 29
+    Classified 2 as 1: 760
     Did not classify: 0
 
 
 Trial 3 Results: 
-Accuracy: 0.9805
+Accuracy: 0.96205
 Errors: 
-    Classified 1 as 2: 76
-    Classified 2 as 1: 314
+    Classified 1 as 2: 32
+    Classified 2 as 1: 727
     Did not classify: 0
 
 
 Trial 4 Results: 
-Accuracy: 0.97905
+Accuracy: 0.9597
 Errors: 
-    Classified 1 as 2: 62
-    Classified 2 as 1: 357
+    Classified 1 as 2: 22
+    Classified 2 as 1: 784
     Did not classify: 0
 
 
 Trial 5 Results: 
-Accuracy: 0.97875
+Accuracy: 0.95955
 Errors: 
-    Classified 1 as 2: 71
-    Classified 2 as 1: 354
+    Classified 1 as 2: 36
+    Classified 2 as 1: 773
     Did not classify: 0
 
 
 Trial 6 Results: 
-Accuracy: 0.979
+Accuracy: 0.96
 Errors: 
-    Classified 1 as 2: 66
-    Classified 2 as 1: 354
+    Classified 1 as 2: 31
+    Classified 2 as 1: 769
     Did not classify: 0
 
 
 Trial 7 Results: 
-Accuracy: 0.9795
+Accuracy: 0.95975
 Errors: 
-    Classified 1 as 2: 59
-    Classified 2 as 1: 351
+    Classified 1 as 2: 26
+    Classified 2 as 1: 779
     Did not classify: 0
 
 
 Trial 8 Results: 
-Accuracy: 0.97795
+Accuracy: 0.963
 Errors: 
-    Classified 1 as 2: 88
-    Classified 2 as 1: 353
+    Classified 1 as 2: 34
+    Classified 2 as 1: 706
     Did not classify: 0
 
 
 Trial 9 Results: 
-Accuracy: 0.98045
+Accuracy: 0.96225
 Errors: 
-    Classified 1 as 2: 70
-    Classified 2 as 1: 321
+    Classified 1 as 2: 25
+    Classified 2 as 1: 730
     Did not classify: 0
 
 
 Trial 10 Results: 
-Accuracy: 0.97945
+Accuracy: 0.9609
 Errors: 
-    Classified 1 as 2: 71
-    Classified 2 as 1: 340
+    Classified 1 as 2: 30
+    Classified 2 as 1: 752
     Did not classify: 0
 
 
